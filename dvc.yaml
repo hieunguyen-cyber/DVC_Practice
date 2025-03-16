@@ -1,0 +1,25 @@
+stages:
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+      - src/preprocessing.py
+    outs:
+      - data/train.csv
+      - data/test.csv
+  training:
+    cmd: python src/train.py
+    deps:
+      - data/train.csv
+      - data/test.csv
+      - src/train.py
+    outs:
+      - model.pkl
+    metrics:
+      - metrics.json
+  push_to_remote:
+      cmd: dvc push
+      deps:
+        - data/train.csv
+        - data/test.csv
+        - model.pkl
+        - metrics.json

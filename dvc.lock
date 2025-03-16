@@ -1,0 +1,61 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: src/preprocessing.py
+      hash: md5
+      md5: da9bc04dcdaae61ef15f7b85406b666c
+      size: 731
+    outs:
+    - path: data/test.csv
+      hash: md5
+      md5: 50b052d03b6bee54aaebd90484bc54f6
+      size: 24573
+    - path: data/train.csv
+      hash: md5
+      md5: ae1b4e4627900c85040694f2a4d35a8b
+      size: 98143
+  training:
+    cmd: python src/train.py
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 50b052d03b6bee54aaebd90484bc54f6
+      size: 24573
+    - path: data/train.csv
+      hash: md5
+      md5: ae1b4e4627900c85040694f2a4d35a8b
+      size: 98143
+    - path: src/train.py
+      hash: md5
+      md5: 057888f1b4dfb7e45564fc32e3782295
+      size: 2686
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 0a7160cb2df723df14f39f580497ddf9
+      size: 32
+    - path: model.pkl
+      hash: md5
+      md5: 8eb564421c09cbbd36c91df53f2a21a6
+      size: 87115
+  push_to_remote:
+    cmd: dvc push
+    deps:
+    - path: data/test.csv
+      hash: md5
+      md5: 50b052d03b6bee54aaebd90484bc54f6
+      size: 24573
+    - path: data/train.csv
+      hash: md5
+      md5: ae1b4e4627900c85040694f2a4d35a8b
+      size: 98143
+    - path: metrics.json
+      hash: md5
+      md5: 0a7160cb2df723df14f39f580497ddf9
+      size: 32
+    - path: model.pkl
+      hash: md5
+      md5: 8eb564421c09cbbd36c91df53f2a21a6
+      size: 87115
